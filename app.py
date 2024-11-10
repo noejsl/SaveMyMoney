@@ -12,17 +12,23 @@ GASTO = 3
 app = Flask(__name__)
        
        
-#SQLSERVER CONNECTION
-app.config['SQL_SERVER_DRIVER'] = 'ODBC Driver 17 for SQL Server'
-app.config['SQL_SERVER_SERVER'] = 'LAPTOP-PLECFAL3\\SQLEXPRESS'
-app.config['SQL_SERVER_DATABASE'] = 'SaveMyMoney'
 
+# Configuración de conexión SQL Server
+app.config['SQL_SERVER_DRIVER'] = 'ODBC Driver 17 for SQL Server'
+app.config['SQL_SERVER_SERVER'] = 'sqlserver'  
+app.config['SQL_SERVER_DATABASE'] = 'SaveMyMoney' 
+app.config['SQL_SERVER_USER'] = 'sa'  
+app.config['SQL_SERVER_PASSWORD'] = 'Ndjsl0506'  
+
+# Cadena de conexión con autenticación SQL Server
 connection_string = (
     f"DRIVER={app.config['SQL_SERVER_DRIVER']};"
     f"SERVER={app.config['SQL_SERVER_SERVER']};"
     f"DATABASE={app.config['SQL_SERVER_DATABASE']};"
-    "Trusted_Connection=yes;"
+    f"UID={app.config['SQL_SERVER_USER']};" 
+    f"PWD={app.config['SQL_SERVER_PASSWORD']};"  
 )
+
 
 mysql = pyodbc.connect(connection_string)
 

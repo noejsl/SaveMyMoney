@@ -1,0 +1,29 @@
+version: '3.8'
+
+services:
+  app:
+    build: .
+    ports:
+      - "5000:5000"
+    environment:
+      - FLASK_ENV=development
+      - DATABASE_URL=Driver={ODBC Driver 17 for SQL Server};Server=sqlserver;Database=SaveMyMoney;UID=sa;PWD=Ndjsl0506
+    depends_on:
+      - sqlserver
+    networks:
+      - mynetwork
+
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server:2019-latest
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=Ndjsl0506
+    ports:
+      - "1433:1433"
+    networks:
+      - mynetwork
+
+networks:
+  mynetwork:
+    driver: bridge
+ 
