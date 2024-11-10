@@ -6,8 +6,13 @@ services:
     ports:
       - "5000:5000"
     environment:
-      - FLASK_ENV=development
-      - DATABASE_URL=Driver={ODBC Driver 17 for SQL Server};Server=sqlserver;Database=SaveMyMoney;UID=sa;PWD=Ndjsl0506
+        - FLASK_ENV=development
+        - SQL_SERVER_DRIVER=ODBC Driver 17 for SQL Server
+        - SQL_SERVER_SERVER=192.168.100.48
+        - SQL_SERVER_DATABASE=SaveMyMoney
+        - SQL_SERVER_USER=sa
+        - SQL_SERVER_PASSWORD=Ndjsl0506
+
     depends_on:
       - sqlserver
     networks:
@@ -27,3 +32,4 @@ networks:
   mynetwork:
     driver: bridge
  
+

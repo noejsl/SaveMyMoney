@@ -1,4 +1,5 @@
 import datetime
+import os 
 from decimal import Decimal
 from flask import Flask, render_template, request, redirect, url_for, flash
 import pyodbc
@@ -14,21 +15,20 @@ app = Flask(__name__)
        
 
 # Configuración de conexión SQL Server
-app.config['SQL_SERVER_DRIVER'] = 'ODBC Driver 17 for SQL Server'
-app.config['SQL_SERVER_SERVER'] = 'sqlserver'  
-app.config['SQL_SERVER_DATABASE'] = 'SaveMyMoney' 
-app.config['SQL_SERVER_USER'] = 'sa'  
-app.config['SQL_SERVER_PASSWORD'] = 'Ndjsl0506'  
+# app.config['SQL_SERVER_DRIVER'] = 'ODBC Driver 17 for SQL Server'
+# app.config['SQL_SERVER_SERVER'] = 'sqlserver'  
+# app.config['SQL_SERVER_DATABASE'] = 'SaveMyMoney' 
+# app.config['SQL_SERVER_USER'] = 'sa'  
+# app.config['SQL_SERVER_PASSWORD'] = 'Ndjsl0506'  
 
 # Cadena de conexión con autenticación SQL Server
 connection_string = (
-    f"DRIVER={app.config['SQL_SERVER_DRIVER']};"
-    f"SERVER={app.config['SQL_SERVER_SERVER']};"
-    f"DATABASE={app.config['SQL_SERVER_DATABASE']};"
-    f"UID={app.config['SQL_SERVER_USER']};" 
-    f"PWD={app.config['SQL_SERVER_PASSWORD']};"  
+    f"DRIVER={os.getenv('SQL_SERVER_DRIVER', 'ODBC Driver 17 for SQL Server')};"
+    f"SERVER={os.getenv('SQL_SERVER_SERVER', 'sqlserver')};"
+    f"DATABASE={os.getenv('SQL_SERVER_DATABASE', 'SaveMyMoney')};"
+    f"UID={os.getenv('SQL_SERVER_USER', 'sa')};"
+    f"PWD={os.getenv('SQL_SERVER_PASSWORD', 'Ndjsl0506')};"
 )
-
 
 mysql = pyodbc.connect(connection_string)
 
