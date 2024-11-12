@@ -1,5 +1,4 @@
 import datetime
-import os 
 from decimal import Decimal
 from flask import Flask, render_template, request, redirect, url_for, flash
 import pyodbc
@@ -14,24 +13,32 @@ app = Flask(__name__)
        
        
 
-# Configuración de conexión SQL Server
-# app.config['SQL_SERVER_DRIVER'] = 'ODBC Driver 17 for SQL Server'
-# app.config['SQL_SERVER_SERVER'] = 'sqlserver'  
-# app.config['SQL_SERVER_DATABASE'] = 'SaveMyMoney' 
-# app.config['SQL_SERVER_USER'] = 'sa'  
-# app.config['SQL_SERVER_PASSWORD'] = 'Ndjsl0506'  
-
-# Cadena de conexión con autenticación SQL Server
+import os
 connection_string = (
-    f"DRIVER={os.getenv('SQL_SERVER_DRIVER', 'ODBC Driver 17 for SQL Server')};"
-    f"SERVER={os.getenv('SQL_SERVER_SERVER', 'sqlserver')};"
+    f"DRIVER={{ODBC Driver 17 for SQL Server}};"
+    f"SERVER={os.getenv('SQL_SERVER_SERVER', 'sql_server')};"
     f"DATABASE={os.getenv('SQL_SERVER_DATABASE', 'SaveMyMoney')};"
     f"UID={os.getenv('SQL_SERVER_USER', 'sa')};"
     f"PWD={os.getenv('SQL_SERVER_PASSWORD', 'Ndjsl0506')};"
 )
 
+# Conexión a SQL Server con manejo de errores
+try:
+    mysql = pyodbc.connect(connection_string)
+    print("Conexión exitosa a SQL Server")
+except pyodbc.InterfaceError as e:
+    print("Error de conexión a SQL Server:", e)
+    mysql = None
+
+
 mysql = pyodbc.connect(connection_string)
 
+try:
+    mysql = pyodbc.connect(connection_string)
+    print("Conexión exitosa a SQL Server")
+except pyodbc.InterfaceError as e:
+    print("Error de conexión a SQL Server:", e)
+    
 """ CREATE DATABASE SaveMyMoney
 
 CREATE TABLE TipoGasto(

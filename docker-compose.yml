@@ -3,33 +3,33 @@ version: '3.8'
 services:
   app:
     build: .
+    container_name: flask_app
     ports:
       - "5000:5000"
-    environment:
-        - FLASK_ENV=development
-        - SQL_SERVER_DRIVER=ODBC Driver 17 for SQL Server
-        - SQL_SERVER_SERVER=192.168.100.48
-        - SQL_SERVER_DATABASE=SaveMyMoney
-        - SQL_SERVER_USER=sa
-        - SQL_SERVER_PASSWORD=Ndjsl0506
-
     depends_on:
-      - sqlserver
+      - sql_server
+    environment:
+      - SQL_SERVER_SERVER=sql_server
+      - SQL_SERVER_USER=sa
+      - SQL_SERVER_PASSWORD=Ndjsl0506
+      - SQL_SERVER_DATABASE=SaveMyMoney
     networks:
-      - mynetwork
+      - flask_network
+    volumes:
+      - .:/app
+    command: bash -c "sleep 30 && python /app/app.py"
 
-  sqlserver:
-    image: mcr.microsoft.com/mssql/server:2019-latest
+  sql_server:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: sql_server
     environment:
       - ACCEPT_EULA=Y
       - SA_PASSWORD=Ndjsl0506
     ports:
       - "1433:1433"
     networks:
-      - mynetwork
+      - flask_network
 
 networks:
-  mynetwork:
+  flask_network:
     driver: bridge
- 
-
